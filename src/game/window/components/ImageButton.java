@@ -15,7 +15,7 @@ public class ImageButton extends JComponent {
 
 	private boolean entered = false;
 
-	public ImageButton(Window w, BufferedImage image, ActionListener actionListener) {
+	public ImageButton(BufferedImage image, ActionListener actionListener) {
 		this.image = image;
 
 		this.addMouseListener(new MouseAdapter() {

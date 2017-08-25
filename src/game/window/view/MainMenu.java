@@ -3,6 +3,7 @@ package game.window.view;
 import game.handler.TextureHandler;
 import game.window.Window;
 import game.window.components.ImageButton;
+import game.window.components.ImageTextButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +15,9 @@ public class MainMenu extends View {
 	private JPanel panel;
 
 	//TODO: ImageTextButtons
-	private ImageButton button_StartGame;		//does something
-	private ImageButton button_Options;			//Changes position on click
-	private ImageButton button_CloseGame;		//Starts game
+	private ImageTextButton button_StartGame;		//does something
+	private ImageTextButton button_Options;			//Changes position on click
+	private ImageTextButton button_CloseGame;		//Starts game
 
 	@Override
 	public void init(Window window) {
@@ -26,9 +27,39 @@ public class MainMenu extends View {
 		TextureHandler.loadImagePng("bar_red", "ui/bar/bar_red");
 		TextureHandler.loadImagePng("bar_yellow", "ui/bar/bar_yellow");
 
-		button_StartGame = new ImageButton(window, TextureHandler.getImagePng("bar_blue"), e -> {});
-		button_CloseGame = new ImageButton(window, TextureHandler.getImagePng("bar_red"), e -> {});
-		button_Options = new ImageButton(window, TextureHandler.getImagePng("bar_yellow"), e -> {button_Options.setBounds(new Random().nextInt(panel.getWidth() - panel.getHeight()*5/16), new Random().nextInt(panel.getHeight() - panel.getHeight()/16),panel.getHeight()*5/8, panel.getHeight()/8);});
+		button_StartGame = new ImageTextButton(new ImageTextButton.ImageText() {
+			@Override
+			public BufferedImage getImage() {
+				return TextureHandler.getImagePng("bar_blue");
+			}
+
+			@Override
+			public String getText() {
+				return "Start Game";
+			}
+		}, e -> {});
+		button_CloseGame = new ImageTextButton(new ImageTextButton.ImageText() {
+			@Override
+			public BufferedImage getImage() {
+				return TextureHandler.getImagePng("bar_red");
+			}
+
+			@Override
+			public String getText() {
+				return "Exit";
+			}
+		}, e -> {});
+		button_Options = new ImageTextButton(new ImageTextButton.ImageText() {
+			@Override
+			public BufferedImage getImage() {
+				return TextureHandler.getImagePng("bar_yellow");
+			}
+
+			@Override
+			public String getText() {
+				return "Options";
+			}
+		}, e -> {button_Options.setBounds(new Random().nextInt(panel.getWidth() - panel.getHeight()*5/16), new Random().nextInt(panel.getHeight() - panel.getHeight()/16),panel.getHeight()*5/8, panel.getHeight()/8);});
 
 		panel.add(button_CloseGame);
 		panel.add(button_Options);

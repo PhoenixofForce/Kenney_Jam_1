@@ -1,6 +1,7 @@
 package game.window.view;
 
 
+import game.game.Direction;
 import game.game.Game;
 import game.game.GameMap;
 import game.handler.TextureHandler;
@@ -64,6 +65,25 @@ public class GameView extends View implements Controller {
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
 				g.drawImage(TextureHandler.getImagePng("ground"), x*SIZE, y*SIZE, SIZE, SIZE, null);
+
+				String wall = "";
+				boolean t = map.hasWall(x, y, Direction.UP);
+				boolean b = map.hasWall(x, y, Direction.DOWN);
+				boolean l = map.hasWall(x, y, Direction.LEFT);
+				boolean r = map.hasWall(x, y, Direction.RIGHT);
+
+				if (t && l) wall = "walls_corner_tl";
+				else if (t && r) wall = "walls_corner_tr";
+				else if (t) wall = "walls_edge_t";
+				else if (b && l) wall = "walls_corner_bl";
+				else if (b && r) wall = "walls_corner_br";
+				else if (b) wall = "walls_edge_b";
+				else if (l) wall = "walls_edge_l";
+				else if (r) wall = "walls_edge_r";
+
+				if (!wall.equals("")) {
+					g.drawImage(TextureHandler.getImagePng(wall), x*SIZE, y*SIZE, SIZE, SIZE, null);
+				}
 			}
 		}
 	}

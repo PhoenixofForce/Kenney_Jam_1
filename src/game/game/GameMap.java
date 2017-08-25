@@ -14,8 +14,8 @@ public class GameMap {
 
 		for (int x = 0; x <= width; x++) {
 			for (int y = 0; y <= height; y++) {
-				if (y < height) walls_V[x][y] = x == 0 || x == width;
-				if (x < width) walls_H[x][y] = y == 0 || y == width;
+				if (y < height) walls_V[x][y] = x == 0 || x == width || Math.random() < 0.1;
+				if (x < width) walls_H[x][y] = y == 0 || y == height|| Math.random() < 0.1;
 			}
 		}
 	}

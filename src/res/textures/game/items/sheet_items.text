@@ -1,0 +1,25 @@
+24
+coinBronze 384 0 128 128 
+coinGold 640 384 128 128 
+coinSilver 256 256 128 128 
+flagBlue1 256 0 128 128 
+flagBlue2 128 384 128 128 
+flagBlue_down 256 128 128 128 
+flagGreen1 128 128 128 128 
+flagGreen2 128 0 128 128 
+flagGreen_down 128 256 128 128 
+flagRed1 0 256 128 128 
+flagRed2 0 128 128 128 
+flagRed_down 0 384 128 128 
+flagYellow1 256 384 128 128 
+flagYellow2 640 256 128 128 
+flagYellow_down 0 0 128 128 
+gemBlue 640 128 128 128 
+gemGreen 640 0 128 128 
+gemRed 512 384 128 128 
+gemYellow 512 256 128 128 
+keyBlue 512 128 128 128 
+keyGreen 512 0 128 128 
+keyRed 384 384 128 128 
+keyYellow 384 256 128 128 
+star 384 128 128 128 

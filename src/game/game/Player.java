@@ -15,8 +15,8 @@ public class Player {
 
 
 	public Player(Game game) {
-		x = 0;
-		y = 0;
+		x = (int) (Math.random() * 20);
+		y = (int) (Math.random() * 15);
 		vx = 0;
 		vy = 0;
 
@@ -38,9 +38,30 @@ public class Player {
 
 			lastTime -= TIME;
 
-			if(!game.getMap().hasWall(Math.round(x + vx), Math.round(y), vx < 0? Direction.LEFT: Direction.RIGHT)) x += vx;
-			if(!game.getMap().hasWall(Math.round(x), Math.round(y + vy), vy < 0? Direction.UP: Direction.DOWN)) y += vy;
+			if(allowed(x+vx, y)) x += vx;
+			else vx = 0;
+			if(allowed(x, y+vy)) y += vy;
+			else vy = 0;
 		}
+	}
+
+	private boolean allowed(float x, float y) {
+		if (game.getFirstPlayer() != this && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
+		if (game.getSecondPlayer() != this && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
+
+		float ww = game.getMap().getWallWidth();
+		for (int wx = (int)x - 1; wx <= (int)x + 1; wx++) {
+			for (int wy = (int)y - 1; wy <= (int)y + 1; wy++) {
+				if (game.getMap().hasWall(wx, wy, Direction.DOWN)) {
+					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx, wy+1-ww, 1, 2*ww)) return false;
+				}
+				if (game.getMap().hasWall(wx, wy, Direction.RIGHT)) {
+					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx+1-ww, wy, 2*ww, 1)) return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	public float getWidth() {

@@ -4,10 +4,10 @@ public class Player {
 
 	private Game game;
 
-	public static final float acceleration = 0.001f;
+	public static final float acceleration = 0.004f;
 	public static final float reibung = 0.9f;
 	public static final float stopping = 0.9f;
-	public static final long TIME = 10;
+	public static final long TIME = 5;
 
 	private float x, y;
 	private float vx, vy;
@@ -41,6 +41,14 @@ public class Player {
 			x += vx;
 			y += vy;
 		}
+	}
+
+	public float getWidth() {
+		return 1f;
+	}
+
+	public float getHeight() {
+		return 1f;
 	}
 
 	public float getX() {

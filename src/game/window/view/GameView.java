@@ -10,9 +10,11 @@ import game.window.controlls.Controller;
 import game.window.controlls.KeyInputListener;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class GameView extends View implements Controller {
+	public static final int SIZE = 64;
 
 	private Window w;
 	private boolean running;
@@ -25,6 +27,7 @@ public class GameView extends View implements Controller {
 	public void init(Window window) {
 		TextureHandler.loadImagePngSpriteSheet("walls", "game/map/walls");
 		TextureHandler.loadImagePng("ground", "game/map/ground");
+		TextureHandler.loadImagePngSpriteSheet("tanks", "game/tank/sheet_tanks");
 
 		this.w = window;
 		key = new KeyInputListener(this);
@@ -37,14 +40,16 @@ public class GameView extends View implements Controller {
 		new Thread(() -> {
 			while(running) {
 				draw();
+			}
+		}).start();
 
-
-
-				try {
-					Thread.sleep(1000/30);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		new Thread(() -> {
+			long t1 = System.currentTimeMillis();
+			while(running) {
+				long t2 = System.currentTimeMillis();
+				updatePlayerWalking();
+				game.update(t2 - t1);
+				t1 = t2;
 			}
 		}).start();
 	}
@@ -53,12 +58,12 @@ public class GameView extends View implements Controller {
 	private void redrawMap() {
 		GameMap map = game.getMap();
 
-		mapBuffer = new BufferedImage(64 * map.getWidth(), 64 * map.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		mapBuffer = new BufferedImage(SIZE * map.getWidth(), SIZE * map.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = (Graphics2D) mapBuffer.getGraphics();
 
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				g.drawImage(TextureHandler.getImagePng("ground"), x*64, y*64, 64, 64, null);
+				g.drawImage(TextureHandler.getImagePng("ground"), x*SIZE, y*SIZE, SIZE, SIZE, null);
 			}
 		}
 	}
@@ -76,9 +81,12 @@ public class GameView extends View implements Controller {
 
 		GameMap map = game.getMap();
 
-		BufferedImage gameBuffer = new BufferedImage(64 * map.getWidth(), 64 * map.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage gameBuffer = new BufferedImage(SIZE * map.getWidth(), SIZE * map.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D gameGraphics = (Graphics2D) gameBuffer.getGraphics();
 		gameGraphics.drawImage(mapBuffer, 0, 0, null);
+
+		gameGraphics.drawImage(TextureHandler.getImagePng("tanks_tankRed"), (int) (SIZE*game.getFirstPlayer().getX()), (int) (SIZE*game.getFirstPlayer().getY()), (int) (SIZE*game.getFirstPlayer().getWidth()),(int) (SIZE*game.getFirstPlayer().getHeight()), null);
+		gameGraphics.drawImage(TextureHandler.getImagePng("tanks_tankGreen"), (int) (SIZE*game.getSecondPlayer().getX()), (int) (SIZE*game.getSecondPlayer().getY()), (int) (SIZE*game.getSecondPlayer().getWidth()),(int) (SIZE*game.getSecondPlayer().getHeight()), null);
 
 
 		if (gameBuffer.getWidth() / (1f*gameBuffer.getHeight()) >= buffer.getWidth() / (1f*buffer.getHeight())) {
@@ -92,6 +100,35 @@ public class GameView extends View implements Controller {
 		g.translate(-c.x, -c.y);
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
 	}
+
+	private void updatePlayerWalking() {
+		float mx = 0, my = 0;
+		if (key.isPressed(KeyEvent.VK_D)) mx += 1;
+		if (key.isPressed(KeyEvent.VK_A)) mx -= 1;
+		if (key.isPressed(KeyEvent.VK_W)) my -= 1;
+		if (key.isPressed(KeyEvent.VK_S)) my += 1;
+		if (mx*mx + my*my != 0) {
+			float a = (float) Math.sqrt(mx*mx + my*my);
+			mx /= a;
+			my /= a;
+		}
+		game.getFirstPlayer().updateWalkingDirection(mx, my);
+
+
+		mx = 0;
+		my = 0;
+		if (key.isPressed(KeyEvent.VK_RIGHT)) mx += 1;
+		if (key.isPressed(KeyEvent.VK_LEFT)) mx -= 1;
+		if (key.isPressed(KeyEvent.VK_UP)) my -= 1;
+		if (key.isPressed(KeyEvent.VK_DOWN)) my += 1;
+		if (mx*mx + my*my != 0) {
+			float a = (float) Math.sqrt(mx*mx + my*my);
+			mx /= a;
+			my /= a;
+		}
+		game.getSecondPlayer().updateWalkingDirection(mx, my);
+	}
+
 
 	@Override
 	public void onKeyType(int i) {

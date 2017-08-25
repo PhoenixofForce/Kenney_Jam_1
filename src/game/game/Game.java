@@ -10,10 +10,13 @@ public class Game {
 	private Camera cam;
 
 	public Game() {
-		map = new GameMap(20, 20);
+		map = new GameMap(20, 15);
 		cam = new Camera();
 		cam.setZoom(1);
 		cam.setPosition(0, 0);
+
+		first = new Player(this);
+		second = new Player(this);
 	}
 
 	public GameMap getMap() {
@@ -30,5 +33,10 @@ public class Game {
 
 	public Player getSecondPlayer() {
 		return second;
+	}
+
+	public void update(long time) {
+		first.update(time);
+		second.update(time);
 	}
 }

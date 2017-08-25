@@ -8,7 +8,7 @@ public class Player {
 	public static final float reibung = 0.9f;
 	public static final float stopping = 0.9f;
 	public static final long TIME = 5;
-	public static final float TIME_PER_DEGREE = 1;
+	public static final float TIME_PER_DEGREE = 2;
 
 	private float x, y;
 	private float vx, vy;
@@ -63,7 +63,6 @@ public class Player {
 			float dist2 = (targetRotation - rotation + 360) % 360 - 180;
 
 			if (dist * dist2 < 0) rotation = targetRotation;
-			System.out.printf(rotation +  "\n");
 		}
 	}
 

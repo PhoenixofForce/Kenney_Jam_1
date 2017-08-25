@@ -10,12 +10,14 @@ public class Game {
 	private Camera cam;
 
 	public Game() {
-
 		map = new GameMap(20, 20);
 		cam = new Camera();
+		cam.setZoom(1);
+		cam.setPosition(0, 0);
+	}
 
-
-
+	public GameMap getMap() {
+		return map;
 	}
 
 	public Camera getCamera() {

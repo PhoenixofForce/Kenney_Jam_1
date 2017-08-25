@@ -7,6 +7,7 @@ import game.window.components.ImageButton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class MainMenu extends View {
 
@@ -27,7 +28,7 @@ public class MainMenu extends View {
 
 		button_StartGame = new ImageButton(window, TextureHandler.getImagePng("bar_blue"), e -> {});
 		button_CloseGame = new ImageButton(window, TextureHandler.getImagePng("bar_red"), e -> {});
-		button_Options = new ImageButton(window, TextureHandler.getImagePng("bar_yellow"), e -> {});
+		button_Options = new ImageButton(window, TextureHandler.getImagePng("bar_yellow"), e -> {button_Options.setBounds(new Random().nextInt(panel.getWidth() - panel.getHeight()*5/16), new Random().nextInt(panel.getHeight() - panel.getHeight()/16),panel.getHeight()*5/8, panel.getHeight()/8);});
 
 		panel.add(button_CloseGame);
 		panel.add(button_Options);

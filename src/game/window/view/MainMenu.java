@@ -48,7 +48,7 @@ public class MainMenu extends View {
 			public String getText() {
 				return "Exit";
 			}
-		}, e -> {});
+		}, e -> {window.updateView(new GameView());});
 		button_Options = new ImageTextButton(new ImageTextButton.ImageText() {
 			@Override
 			public BufferedImage getImage() {

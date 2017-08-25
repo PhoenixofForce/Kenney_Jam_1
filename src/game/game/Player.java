@@ -12,6 +12,7 @@ public class Player {
 	private float x, y;
 	private float vx, vy;
 	private float mx, my;
+	private float rotation = 0;
 
 
 	public Player(Game game) {
@@ -42,6 +43,8 @@ public class Player {
 			else vx = 0;
 			if(allowed(x, y+vy)) y += vy;
 			else vy = 0;
+
+
 		}
 	}
 
@@ -62,6 +65,10 @@ public class Player {
 		}
 
 		return true;
+	}
+
+	public float getRotation() {
+		return rotation;
 	}
 
 	public float getWidth() {
@@ -91,6 +98,13 @@ public class Player {
 	public void updateWalkingDirection(float mx, float my) {
 		this.mx = mx;
 		this.my = my;
+
+		if (mx * mx + my *my > 0) {
+			rotation = 180.0f + (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2)))));
+			if(mx < 0) rotation = 360 - rotation;
+
+			rotation = 360 - rotation;
+		}
 	}
 
 	public void shoot() {

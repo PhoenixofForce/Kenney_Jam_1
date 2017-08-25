@@ -21,6 +21,7 @@ public class GameView extends View implements Controller {
 	private boolean running;
 	private KeyInputListener key;
 	private Game game;
+	private boolean swapped = false;
 	private BufferedImage mapBuffer;
 	private int bw = 0, bh = 0;
 	private BufferedImage gameBuffer;
@@ -165,8 +166,8 @@ public class GameView extends View implements Controller {
 			mx /= a;
 			my /= a;
 		}
-		game.getFirstPlayer().updateWalkingDirection(mx, my);
-
+		if(!swapped) game.getFirstPlayer().updateWalkingDirection(mx, my);
+		else game.getSecondPlayer().updateWalkingDirection(mx, my);
 
 		mx = 0;
 		my = 0;
@@ -179,7 +180,8 @@ public class GameView extends View implements Controller {
 			mx /= a;
 			my /= a;
 		}
-		game.getSecondPlayer().updateWalkingDirection(mx, my);
+		if(!swapped) game.getSecondPlayer().updateWalkingDirection(mx, my);
+		else game.getFirstPlayer().updateWalkingDirection(mx, my);
 	}
 
 

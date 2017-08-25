@@ -24,6 +24,7 @@ public class Window extends JFrame {
 		panel.setIgnoreRepaint(true);
 		panel.setFocusable(true);
 		this.setContentPane(panel);
+		this.setTitle("7102 MAJ YENNEK");
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		framed();

@@ -8,11 +8,13 @@ public class Player {
 	public static final float reibung = 0.9f;
 	public static final float stopping = 0.9f;
 	public static final long TIME = 5;
+	public static final float TIME_PER_DEGREE = 2;
 
 	private float x, y;
 	private float vx, vy;
 	private float mx, my;
 	private float rotation = 0;
+	private float targetRotation = 0;
 
 
 	public Player(Game game) {
@@ -43,6 +45,24 @@ public class Player {
 			else vx = 0;
 			if(allowed(x, y+vy)) y += vy;
 			else vy = 0;
+		}
+
+		if (rotation != targetRotation) {
+			float dist = (targetRotation - rotation + 360) % 360 - 180;
+
+
+			if (dist < 0) {
+				rotation += 360 + time/TIME_PER_DEGREE;
+				rotation %= 360;
+			} else {
+				rotation += 360 - time/TIME_PER_DEGREE;
+				rotation %= 360;
+			}
+
+
+			float dist2 = (targetRotation - rotation + 360) % 360 - 180;
+
+			if (dist * dist2 < 0) rotation = targetRotation;
 		}
 	}
 
@@ -98,10 +118,10 @@ public class Player {
 		this.my = my;
 
 		if (mx * mx + my *my > 0) {
-			rotation = 180.0f + (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2)))));
-			if(mx < 0) rotation = 360 - rotation;
+			targetRotation = 180.0f + (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2)))));
+			if(mx < 0) targetRotation = 360 - targetRotation;
 
-			rotation = 360 - rotation;
+			targetRotation = 360 - targetRotation;
 		}
 	}
 

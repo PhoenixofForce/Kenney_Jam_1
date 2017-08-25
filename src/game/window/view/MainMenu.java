@@ -26,7 +26,7 @@ public class MainMenu extends View {
 		TextureHandler.loadImagePng("bar_red", "ui/bar/bar_red");
 		TextureHandler.loadImagePng("bar_yellow", "ui/bar/bar_yellow");
 
-		button_StartGame = new ImageButton(window, TextureHandler.getImagePng("bar_blue"), e -> {});
+		button_StartGame = new ImageButton(window, TextureHandler.getImagePng("bar_blue"), e -> {window.updateView(new GameView());});
 		button_CloseGame = new ImageButton(window, TextureHandler.getImagePng("bar_red"), e -> {});
 		button_Options = new ImageButton(window, TextureHandler.getImagePng("bar_yellow"), e -> {button_Options.setBounds(new Random().nextInt(panel.getWidth() - panel.getHeight()*5/16), new Random().nextInt(panel.getHeight() - panel.getHeight()/16),panel.getHeight()*5/8, panel.getHeight()/8);});
 

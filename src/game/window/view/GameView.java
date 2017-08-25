@@ -124,18 +124,23 @@ public class GameView extends View implements Controller {
 		Graphics2D gameGraphics = (Graphics2D) gameBuffer.getGraphics();
 		gameGraphics.drawImage(mapBuffer, 0, 0, null);
 
-		gameGraphics.translate((int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2)), (int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2)));
-		gameGraphics.rotate(Math.toRadians(game.getFirstPlayer().getRotation()));
+		int dx = (int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2));
+		int dy = (int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2));
+		double rot = Math.toRadians(game.getFirstPlayer().getRotation());
+		gameGraphics.translate(dx, dy);
+		gameGraphics.rotate(rot);
 		gameGraphics.drawImage(TextureHandler.getImagePng("tanks_tankRed"), -(int) (SIZE * game.getFirstPlayer().getWidth())/2, -(int) (SIZE * game.getFirstPlayer().getHeight())/2, (int) (SIZE * game.getFirstPlayer().getWidth()), (int) (SIZE * game.getFirstPlayer().getHeight()), null);
-		gameGraphics.rotate(Math.toRadians(-game.getFirstPlayer().getRotation()));
-		gameGraphics.translate(-(int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2)), -(int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2)));
+		gameGraphics.rotate(-rot);
+		gameGraphics.translate(-dx, -dy);
 
-		gameGraphics.translate((int) (SIZE * (game.getSecondPlayer().getX() + game.getSecondPlayer().getWidth()/2)), (int) (SIZE * (game.getSecondPlayer().getY()+game.getSecondPlayer().getHeight()/2)));
-		gameGraphics.rotate(Math.toRadians(game.getSecondPlayer().getRotation()));
+		dx = (int) (SIZE * (game.getSecondPlayer().getX() + game.getSecondPlayer().getWidth()/2));
+		dy = (int) (SIZE * (game.getSecondPlayer().getY()+game.getSecondPlayer().getHeight()/2));
+		rot = Math.toRadians(game.getSecondPlayer().getRotation());
+		gameGraphics.translate(dx, dy);
+		gameGraphics.rotate(rot);
 		gameGraphics.drawImage(TextureHandler.getImagePng("tanks_tankGreen"), -(int) (SIZE * game.getSecondPlayer().getWidth())/2, -(int) (SIZE * game.getSecondPlayer().getHeight())/2, (int) (SIZE * game.getFirstPlayer().getWidth()), (int) (SIZE * game.getFirstPlayer().getHeight()), null);
-		gameGraphics.rotate(Math.toRadians(-game.getSecondPlayer().getRotation()));
-		gameGraphics.translate(-(int) (SIZE * (game.getSecondPlayer().getX() + game.getSecondPlayer().getWidth()/2)), -(int) (SIZE * (game.getSecondPlayer().getY()+game.getSecondPlayer().getHeight()/2)));
-
+		gameGraphics.translate(-dx, -dy);
+		gameGraphics.rotate(-rot);
 
 		if (gameBuffer.getWidth() / (1f * gameBuffer.getHeight()) >= buffer.getWidth() / (1f * buffer.getHeight())) {
 			float height = (gameBuffer.getHeight() / (1f * gameBuffer.getWidth())) * buffer.getWidth();

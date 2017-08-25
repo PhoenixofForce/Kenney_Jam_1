@@ -1,0 +1,14 @@
+13
+corner_tl 0 0 16 16
+edge_l 0 17 16 16
+corner_bl 0 34 16 16
+edge_t 17 0 16 16
+t_l 17 17 16 16
+edge_b 17 34 16 16
+t_r 34 17 16 16
+t_u 51 0 16 16
+cross 51 17 16 16
+t_d 51 34 16 16
+corner_tr 68 0 16 16
+edge_r 68 17 16 16
+corner_br 68 34 16 16

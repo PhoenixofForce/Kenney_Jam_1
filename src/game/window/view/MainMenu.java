@@ -14,7 +14,7 @@ public class MainMenu extends View {
 	private JPanel panel;
 
 	//TODO: ImageTextButtons
-	private ImageButton button_StartGame;		//Open options
+	private ImageButton button_StartGame;		//does something
 	private ImageButton button_Options;			//Changes position on click
 	private ImageButton button_CloseGame;		//Starts game
 

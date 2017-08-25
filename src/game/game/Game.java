@@ -10,7 +10,7 @@ public class Game {
 	private Camera cam;
 
 	public Game() {
-		map = new GameMap(20, 20);
+		map = new GameMap(64, 34);
 		cam = new Camera();
 		cam.setZoom(1);
 		cam.setPosition(0, 0);

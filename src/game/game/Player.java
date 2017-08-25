@@ -38,8 +38,8 @@ public class Player {
 
 			lastTime -= TIME;
 
-			x += vx;
-			y += vy;
+			if(!game.getMap().hasWall(Math.round(x + vx), Math.round(y), vx < 0? Direction.LEFT: Direction.RIGHT)) x += vx;
+			if(!game.getMap().hasWall(Math.round(x), Math.round(y + vy), vy < 0? Direction.UP: Direction.DOWN)) y += vy;
 		}
 	}
 

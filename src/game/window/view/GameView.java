@@ -152,6 +152,8 @@ public class GameView extends View implements Controller {
 
 	@Override
 	public void onKeyType(int i) {
+		if(i == KeyEvent.VK_E) game.getFirstPlayer().shoot();
+		if(i == KeyEvent.VK_MINUS) game.getSecondPlayer().shoot();
 	}
 
 	@Override

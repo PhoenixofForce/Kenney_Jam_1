@@ -51,11 +51,16 @@ public class Game {
 		return projectiles;
 	}
 
+	long lastTime = 0;
 	public void update(long time) {
 		first.update(time);
 		second.update(time);
 
-		if(Math.random() < 0.000000015) swap = !swap;
+		lastTime += time;
+		if(lastTime >= 5000L && Math.random() < 0.000000015) {
+			lastTime -= 5000L;
+			swap = !swap;
+		}
 
 		for(int i = 0; i < projectiles.size(); i++) {
 			Projectile p = projectiles.get(i);

@@ -17,9 +17,9 @@ public class Player {
 	private float targetRotation = 0;
 
 
-	public Player(Game game) {
-		x = (int) (Math.random() * 20);
-		y = (int) (Math.random() * 15);
+	public Player(Game game, float x, float y) {
+		this.x = x;
+		this.y = y;
 		vx = 0;
 		vy = 0;
 

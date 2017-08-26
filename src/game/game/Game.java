@@ -25,8 +25,8 @@ public class Game {
 
 		projectiles = new ArrayList<>();
 
-		first = new Player(this);
-		second = new Player(this);
+		first = new Player(this, map.getFirstPlayerSpawnPointX(), map.getFirstPlayerSpawnPointY());
+		second = new Player(this, map.getSecondPlayerSpawnPointX(), map.getSecondPlayerSpawnPointY());
 	}
 
 	public GameMap getMap() {

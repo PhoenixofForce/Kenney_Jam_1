@@ -8,6 +8,7 @@ public class GameMap {
 	private int width, height;
 	private boolean[][] walls_V;
 	private boolean[][] walls_H;
+	private float[] spawn;
 
 	public GameMap() {
 		Scanner s = new Scanner(FileHandler.loadFile("map/map.txt"));
@@ -33,6 +34,28 @@ public class GameMap {
 				walls_H[x][y] = y == 0 || y == height || line.charAt(x)=='X';
 			}
 		}
+
+		s.nextLine();
+		spawn = new float[4];
+		for (int i = 0; i < spawn.length; i++) {
+			spawn[i] = Float.valueOf(s.nextLine());
+		}
+	}
+
+	public float getFirstPlayerSpawnPointX() {
+		return spawn[0];
+	}
+
+	public float getFirstPlayerSpawnPointY() {
+		return spawn[1];
+	}
+
+	public float getSecondPlayerSpawnPointX() {
+		return spawn[2];
+	}
+
+	public float getSecondPlayerSpawnPointY() {
+		return spawn[3];
 	}
 
 	public int getWidth() {

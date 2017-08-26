@@ -1,16 +1,11 @@
 package game.game;
 
 public class Projectile {
-
-	public static final float acceleration = 0.01f;
-	public static final float reibung = 0.9f;
-	public static final float stopping = 0.9f;
 	public static final long TIME = 5;
 	public static final float TIME_PER_DEGREE = 2;
 
 	private float x, y;
 	private float vx, vy;
-	private float mx, my;
 	private float rotation = 0;
 	private float targetRotation = 0;
 
@@ -28,52 +23,64 @@ public class Projectile {
 	}
 
 	long lastTime = 0;
-	public void update(long time) {
+	int collides = 0;
+	public boolean update(long time) {
 		lastTime += time;
 		while (lastTime > TIME) {
-			vx += mx * acceleration;
-			vy += my * acceleration;
-			vx *= reibung;
-			vy *= reibung;
-			if (mx == 0 && my == 0) {
-				vx *= stopping;
-				vy *= stopping;
-			}
-
 			lastTime -= TIME;
 
-			if(allowed(x+vx, y)) x += vx;
-			else {
-				//TODO: Kill and Respawn
-				vx = 0;
+			Player t1 = collidePlayer(x+vx, y);
+			if (t1 != null) {
+				return true;
+
+			} else if (collideWall(x+vx, y)){
+				updateFlyingDirection(-vx, vy);
+				collides++;
+			} else {
+				x += vx;
 			}
-			if(allowed(x, y+vy)) y += vy;
-			else {
-				//TODO: Kill and Respawn
-				vy = 0;
+
+			t1 = collidePlayer(x, y+vy);
+			if (t1 != null) {
+				return true;
+
+			} else if (collideWall(x, y+vy)){
+				updateFlyingDirection(vx, -vy);
+				collides++;
+			} else {
+				y += vy;
+			}
+
+			if (collides >= 5) {
+				return true;
 			}
 		}
 
 		rotation = targetRotation;
+		return false;
 	}
 
-	private boolean allowed(float x, float y) {
-		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
-		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
+	private Player collidePlayer(float x, float y) {
+		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return game.getFirstPlayer();
+		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return game.getSecondPlayer();
 
+		return null;
+	}
+
+	private boolean collideWall(float x, float y) {
 		float ww = game.getMap().getWallWidth();
 		for (int wx = (int)x - 1; wx <= (int)x + 1; wx++) {
 			for (int wy = (int)y - 1; wy <= (int)y + 1; wy++) {
 				if (game.getMap().hasWall(wx, wy, Direction.DOWN)) {
-					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx, wy+1-ww, 1, 2*ww)) return false;
+					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx, wy+1-ww, 1, 2*ww)) return true;
 				}
 				if (game.getMap().hasWall(wx, wy, Direction.RIGHT)) {
-					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx+1-ww, wy, 2*ww, 1)) return false;
+					if (CollisionUtil.collides(x, y, this.getWidth(), this.getHeight(), wx+1-ww, wy, 2*ww, 1)) return true;
 				}
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	public float getRotation() {
@@ -81,11 +88,11 @@ public class Projectile {
 	}
 
 	public float getWidth() {
-		return 1f;
+		return 0.2f;
 	}
 
 	public float getHeight() {
-		return 1f;
+		return 0.5f;
 	}
 
 	public float getX() {
@@ -104,13 +111,13 @@ public class Projectile {
 		return vy;
 	}
 
-	public void updateWalkingDirection(float mx, float my) {
-		this.mx = mx;
-		this.my = my;
+	public void updateFlyingDirection(float vx, float vy) {
+		this.vx = vx;
+		this.vy = vy;
 
-		if (mx * mx + my *my > 0) {
-			targetRotation = (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2)))));
-			if(mx < 0) targetRotation = 360 - targetRotation;
+		if (vx * vx + vy *vy > 0) {
+			targetRotation = (float) Math.toDegrees(Math.acos(vy/(Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)))));
+			if(vx < 0) targetRotation = 360 - targetRotation;
 
 			targetRotation = 360 - targetRotation;
 		}

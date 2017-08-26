@@ -39,6 +39,6 @@ public class GameMap {
 	}
 
 	public float getWallWidth() {
-		return 0.1f;
+		return 0.2f;
 	}
 }

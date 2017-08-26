@@ -51,13 +51,19 @@ public class Game {
 		second.update(time);
 		for(int i = 0; i < projectiles.size(); i++) {
 			Projectile p = projectiles.get(i);
-			if(p != null) p.update(time);
+			if(p != null) {
+				boolean b = p.update(time);
+				if (b) {
+					projectiles.remove(p);
+					i--;
+				}
+			}
 		}
 	}
 
 	public void summonProjectile(Player s, float rot) {
 		Projectile p = new Projectile(s, this);
-		p.updateWalkingDirection(rot == 90 || rot == 45 || rot == 135? 1: rot == 0 || rot == 360 || rot == 180? 0: -1, rot == 225 || rot == 180 || rot == 135? 1: rot == 90 || rot == 270? 0: -1);
+		p.updateFlyingDirection(rot == 90 || rot == 45 || rot == 135? 1: rot == 0 || rot == 360 || rot == 180? 0: -1, rot == 225 || rot == 180 || rot == 135? 1: rot == 90 || rot == 270? 0: -1);
 		projectiles.add(p);
 	}
 }

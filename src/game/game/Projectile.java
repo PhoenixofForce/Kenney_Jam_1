@@ -1,10 +1,8 @@
 package game.game;
 
-public class Player {
+public class Projectile {
 
-	private Game game;
-
-	public static final float acceleration = 0.004f;
+	public static final float acceleration = 0.01f;
 	public static final float reibung = 0.9f;
 	public static final float stopping = 0.9f;
 	public static final long TIME = 5;
@@ -16,13 +14,16 @@ public class Player {
 	private float rotation = 0;
 	private float targetRotation = 0;
 
+	private Game game;
+	private Player shooter;
 
-	public Player(Game game) {
-		x = (int) (Math.random() * 20);
-		y = (int) (Math.random() * 15);
+	public Projectile(Player shooter, Game game) {
+		x = shooter.getX();
+		y = shooter.getY();
 		vx = 0;
 		vy = 0;
 
+		this.shooter = shooter;
 		this.game = game;
 	}
 
@@ -42,9 +43,15 @@ public class Player {
 			lastTime -= TIME;
 
 			if(allowed(x+vx, y)) x += vx;
-			else vx = 0;
+			else {
+				//TODO: Kill and Respawn
+				vx = 0;
+			}
 			if(allowed(x, y+vy)) y += vy;
-			else vy = 0;
+			else {
+				//TODO: Kill and Respawn
+				vy = 0;
+			}
 		}
 
 		if (rotation != targetRotation) {
@@ -67,8 +74,8 @@ public class Player {
 	}
 
 	private boolean allowed(float x, float y) {
-		if (game.getFirstPlayer() != this && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
-		if (game.getSecondPlayer() != this && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
+		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
+		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return false;
 
 		float ww = game.getMap().getWallWidth();
 		for (int wx = (int)x - 1; wx <= (int)x + 1; wx++) {
@@ -125,9 +132,7 @@ public class Player {
 		}
 	}
 
-	public void shoot() {
-		game.getCamera().addScreenshake(100.0000001f);
-		game.summonProjectile(this, rotation);
+	public Player getShooter() {
+		return shooter;
 	}
-
 }

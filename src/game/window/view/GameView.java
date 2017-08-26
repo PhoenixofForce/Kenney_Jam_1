@@ -4,6 +4,7 @@ package game.window.view;
 import game.game.Direction;
 import game.game.Game;
 import game.game.GameMap;
+import game.game.Projectile;
 import game.handler.TextureHandler;
 import game.window.Camera;
 import game.window.Window;
@@ -165,8 +166,21 @@ public class GameView extends View implements Controller {
 		gameGraphics.translate(dx, dy);
 		gameGraphics.rotate(rot);
 		gameGraphics.drawImage(TextureHandler.getImagePng("tanks_tankGreen"), -(int) (SIZE * game.getSecondPlayer().getWidth())/2, -(int) (SIZE * game.getSecondPlayer().getHeight())/2, (int) (SIZE * game.getFirstPlayer().getWidth()), (int) (SIZE * game.getFirstPlayer().getHeight()), null);
-		gameGraphics.translate(-dx, -dy);
 		gameGraphics.rotate(-rot);
+		gameGraphics.translate(-dx, -dy);
+
+
+		for(int i = 0; i < game.getProjectiles().size(); i++) {
+			Projectile p = game.getProjectiles().get(i);
+			dx = (int) (SIZE * (p.getX() + p.getWidth()/2));
+			dy = (int) (SIZE * (p.getY()+p.getHeight()/2));
+			rot = Math.toRadians(p.getRotation());
+			gameGraphics.translate(dx, dy);
+			gameGraphics.rotate(rot);
+			gameGraphics.drawImage(TextureHandler.getImagePng(p.getShooter().equals(game.getFirstPlayer())? "tanks_bulletRed" : "tanks_bulletGreen"), -(int) (SIZE * p.getWidth())/2, -(int) (SIZE * p.getHeight())/2, (int) (SIZE * p.getWidth()), (int) (SIZE * p.getHeight()), null);
+			gameGraphics.rotate(-rot);
+			gameGraphics.translate(-dx, -dy);
+		}
 
 		if (gameBuffer.getWidth() / (1f * gameBuffer.getHeight()) >= buffer.getWidth() / (1f * buffer.getHeight())) {
 			float height = (gameBuffer.getHeight() / (1f * gameBuffer.getWidth())) * buffer.getWidth();

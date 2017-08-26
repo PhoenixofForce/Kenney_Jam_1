@@ -118,7 +118,7 @@ public class Player {
 		this.my = my;
 
 		if (mx * mx + my *my > 0) {
-			targetRotation = (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2)))));
+			targetRotation = (float) Math.toDegrees(Math.acos(my/(Math.sqrt(Math.pow(mx, 2) + Math.pow(my, 2))))) % 360;
 			if(mx < 0) targetRotation = 360 - targetRotation;
 
 			targetRotation = 360 - targetRotation;

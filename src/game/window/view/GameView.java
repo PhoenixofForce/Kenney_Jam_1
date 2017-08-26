@@ -128,7 +128,7 @@ public class GameView extends View implements Controller {
 			Graphics2D mapGraphics = (Graphics2D) mapBuffer.getGraphics();
 
 
-			if (drawTracks) {
+			if (drawTracks && !(game.getFirstPlayer().getVX() <= 0.00001f && game.getFirstPlayer().getVY() <= 0.00001f)) {
 				int dx = (int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2));
 				int dy = (int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2));
 				double rot = Math.toRadians(game.getFirstPlayer().getRotation());
@@ -138,7 +138,18 @@ public class GameView extends View implements Controller {
 				mapGraphics.rotate(-rot);
 				mapGraphics.translate(-dx, -dy);
 			}
+
+			if (drawTracks && !(game.getSecondPlayer().getVX() <= 0.00001f && game.getSecondPlayer().getVY() <= 0.00001f)) {
+				int dx = (int) (SIZE * (game.getSecondPlayer().getX() + game.getSecondPlayer().getWidth()/2));
+				int dy = (int) (SIZE * (game.getSecondPlayer().getY()+game.getSecondPlayer().getHeight()/2));
+				double rot = Math.toRadians(game.getSecondPlayer().getRotation());
+				mapGraphics.translate(dx, dy);
+				mapGraphics.rotate(rot);
+				mapGraphics.drawImage(TextureHandler.getImagePng("tanks_tracksLarge"), -(int) (SIZE * game.getSecondPlayer().getWidth())/2, -(int) (SIZE * game.getSecondPlayer().getHeight())/2, (int) (SIZE * game.getSecondPlayer().getWidth()), (int) (SIZE * game.getSecondPlayer().getHeight()), null);
+				mapGraphics.rotate(-rot);
+				mapGraphics.translate(-dx, -dy);
 			}
+		}
 
 		GameMap map = game.getMap();
 

@@ -57,7 +57,8 @@ public class Game {
 
 	public void summonProjectile(Player s, float rot) {
 		Projectile p = new Projectile(s, this);
-		p.updateWalkingDirection(rot == 90 || rot == 45 || rot == 135? 1: rot == 0 || rot == 180? 0: -1, rot == 225 || rot == 180 || rot == 135? 1: rot == 90 || rot == 270? 0: -1);
+		System.out.println(rot);
+		p.updateWalkingDirection(rot == 90 || rot == 45 || rot == 135? 1: rot == 0 || rot == 360 || rot == 180? 0: -1, rot == 225 || rot == 180 || rot == 135? 1: rot == 90 || rot == 270? 0: -1);
 		projectiles.add(p);
 	}
 }

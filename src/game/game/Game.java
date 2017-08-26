@@ -58,7 +58,7 @@ public class Game {
 
 		lastTime += time;
 		if(lastTime >= 5000L && Math.random() < 0.000000015) {
-			lastTime -= 5000L;
+			lastTime = 0L;
 			swap = !swap;
 		}
 

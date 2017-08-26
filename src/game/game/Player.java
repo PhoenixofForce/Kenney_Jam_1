@@ -113,6 +113,11 @@ public class Player {
 		return vy;
 	}
 
+	public void setPos(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	public void updateWalkingDirection(float mx, float my) {
 		this.mx = mx;
 		this.my = my;

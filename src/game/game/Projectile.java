@@ -60,10 +60,20 @@ public class Projectile {
 	private Player collidePlayer(float x, float y) {
 		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) {
 			game.score(shooter);
+
+			if(distance(game.getSecondPlayer().getX(), game.getSecondPlayer().getY(), game.getMap().getSecondPlayerSpawnPointX(), game.getMap().getSecondPlayerSpawnPointY()) > distance(game.getSecondPlayer().getX(), game.getSecondPlayer().getY(), game.getMap().getFirstPlayerSpawnPointX(), game.getMap().getFirstPlayerSpawnPointY()))
+				game.getFirstPlayer().setPos(game.getMap().getSecondPlayerSpawnPointX(), game.getMap().getSecondPlayerSpawnPointY());
+			else game.getFirstPlayer().setPos(game.getMap().getFirstPlayerSpawnPointX(), game.getMap().getFirstPlayerSpawnPointY());
+
 			return game.getFirstPlayer();
 		}
 		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) {
 			game.score(shooter);
+
+			if(distance(game.getFirstPlayer().getX(), game.getFirstPlayer().getY(), game.getMap().getSecondPlayerSpawnPointX(), game.getMap().getSecondPlayerSpawnPointY()) > distance(game.getFirstPlayer().getX(), game.getFirstPlayer().getY(), game.getMap().getFirstPlayerSpawnPointX(), game.getMap().getFirstPlayerSpawnPointY()))
+				game.getSecondPlayer().setPos(game.getMap().getSecondPlayerSpawnPointX(), game.getMap().getSecondPlayerSpawnPointY());
+			else game.getSecondPlayer().setPos(game.getMap().getFirstPlayerSpawnPointX(), game.getMap().getFirstPlayerSpawnPointY());
+
 			return game.getSecondPlayer();
 		}
 
@@ -128,5 +138,9 @@ public class Projectile {
 
 	public Player getShooter() {
 		return shooter;
+	}
+
+	public float distance(float x, float y, float x2, float y2) {
+		return (float) Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
 	}
 }

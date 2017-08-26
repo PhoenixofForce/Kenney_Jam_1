@@ -8,6 +8,7 @@ import game.game.Projectile;
 import game.handler.TextureHandler;
 import game.window.Camera;
 import game.window.Window;
+import game.window.components.ImageTextLabel;
 import game.window.controlls.Controller;
 import game.window.controlls.KeyInputListener;
 
@@ -29,6 +30,8 @@ public class GameView extends View implements Controller {
 	private BufferedImage gameBuffer;
 	private int gbw, gbh;
 
+	private ImageTextLabel score;
+
 	@Override
 	public void init(Window window) {
 		TextureHandler.loadImagePngSpriteSheet("walls", "game/map/walls");
@@ -39,6 +42,20 @@ public class GameView extends View implements Controller {
 		key = new KeyInputListener(this);
 		w.addKeyInputListener(key);
 		running = true;
+
+		score = new ImageTextLabel(new ImageTextLabel.ImageText() {
+			@Override
+			public BufferedImage getImage() {
+				return TextureHandler.getImagePng("bar_red");
+			}
+
+			@Override
+			public String getText() {
+				return game.getFirstPlayerScore() + " : " + game.getSecondPlayerScore();
+			}
+		});
+		window.getPanel().add(score);
+		changeSize();
 
 		game = new Game();
 		redrawMap();
@@ -59,6 +76,19 @@ public class GameView extends View implements Controller {
 				t1 = t2;
 			}
 		}).start();
+	}
+
+	@Override
+	public void changeSize() {
+		if (score == null) return;
+
+		int width = w.getPanel().getWidth();
+		int height = w.getPanel().getHeight();
+
+		int buttonHeight = height / 8;
+		int buttonWidth = buttonHeight;
+
+		score.setBounds(5, 5, buttonWidth, buttonHeight/2);
 	}
 
 	private void redrawMap() {
@@ -202,6 +232,11 @@ public class GameView extends View implements Controller {
 		}
 
 		g.translate(-c.x, -c.y);
+
+		g.translate(score.getX(), score.getY());
+		score.update(g);
+		g.translate(score.getX(), score.getY());
+
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
 	}
 

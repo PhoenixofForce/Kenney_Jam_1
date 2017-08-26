@@ -1,7 +1,6 @@
 package game.window.view;
 
 import game.window.Window;
-import game.window.controlls.Controller;
 
 public abstract class View {
 

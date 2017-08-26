@@ -9,6 +9,7 @@ public class Game {
 
 	private GameMap map;
 	private Player first, second;
+	private int fScore = 0, sScore = 0;
 
 	private List<Projectile> projectiles;
 
@@ -65,5 +66,19 @@ public class Game {
 		Projectile p = new Projectile(s, this);
 		p.updateFlyingDirection(-(float)Math.sin(Math.toRadians(rot))/9, (float)Math.cos(Math.toRadians(rot))/9);
 		projectiles.add(p);
+	}
+
+	public int getFirstPlayerScore() {
+		return fScore;
+	}
+
+	public int getSecondPlayerScore() {
+		return sScore;
+	}
+
+	public void score(Player p) {
+		if(p.equals(first)) fScore++;
+		else sScore++;
+		System.out.println(fScore + " : " + sScore);
 	}
 }

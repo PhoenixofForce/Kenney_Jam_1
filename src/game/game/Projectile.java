@@ -58,8 +58,14 @@ public class Projectile {
 	}
 
 	private Player collidePlayer(float x, float y) {
-		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) return game.getFirstPlayer();
-		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) return game.getSecondPlayer();
+		if (game.getFirstPlayer() != shooter && CollisionUtil.collides(game.getFirstPlayer(), x, y, this.getWidth(), this.getHeight())) {
+			game.score(shooter);
+			return game.getFirstPlayer();
+		}
+		if (game.getSecondPlayer() != shooter && CollisionUtil.collides(game.getSecondPlayer(), x, y, this.getWidth(), this.getHeight())) {
+			game.score(shooter);
+			return game.getSecondPlayer();
+		}
 
 		return null;
 	}

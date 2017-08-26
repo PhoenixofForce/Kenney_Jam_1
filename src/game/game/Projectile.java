@@ -2,19 +2,17 @@ package game.game;
 
 public class Projectile {
 	public static final long TIME = 5;
-	public static final float TIME_PER_DEGREE = 2;
 
 	private float x, y;
 	private float vx, vy;
 	private float rotation = 0;
-	private float targetRotation = 0;
 
 	private Game game;
 	private Player shooter;
 
 	public Projectile(Player shooter, Game game) {
-		x = shooter.getX();
-		y = shooter.getY();
+		x = shooter.getX()+shooter.getWidth()/2-this.getWidth()/2;
+		y = shooter.getY()+shooter.getHeight()/2-this.getHeight()/2;
 		vx = 0;
 		vy = 0;
 
@@ -56,7 +54,6 @@ public class Projectile {
 			}
 		}
 
-		rotation = targetRotation;
 		return false;
 	}
 
@@ -92,7 +89,7 @@ public class Projectile {
 	}
 
 	public float getHeight() {
-		return 0.5f;
+		return 0.3f;
 	}
 
 	public float getX() {
@@ -116,10 +113,10 @@ public class Projectile {
 		this.vy = vy;
 
 		if (vx * vx + vy *vy > 0) {
-			targetRotation = (float) Math.toDegrees(Math.acos(vy/(Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)))));
+			float targetRotation = (float) Math.toDegrees(Math.acos(vy/(Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)))));
 			if(vx < 0) targetRotation = 360 - targetRotation;
 
-			targetRotation = 360 - targetRotation;
+			rotation = 360 - targetRotation;
 		}
 	}
 

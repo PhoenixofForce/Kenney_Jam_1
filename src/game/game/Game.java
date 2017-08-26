@@ -15,6 +15,8 @@ public class Game {
 
 	private Camera cam;
 
+	private boolean swap = false;
+
 	public Game() {
 		map = new GameMap();
 		cam = new Camera();
@@ -36,11 +38,13 @@ public class Game {
 	}
 
 	public Player getFirstPlayer() {
-		return first;
+		if(!swap) return first;
+		else return second;
 	}
 
 	public Player getSecondPlayer() {
-		return second;
+		if(!swap) return second;
+		else return first;
 	}
 
 	public List<Projectile> getProjectiles() {
@@ -50,6 +54,9 @@ public class Game {
 	public void update(long time) {
 		first.update(time);
 		second.update(time);
+
+		if(Math.random() < 0.000000015) swap = !swap;
+
 		for(int i = 0; i < projectiles.size(); i++) {
 			Projectile p = projectiles.get(i);
 			if(p != null) {
@@ -77,7 +84,7 @@ public class Game {
 	}
 
 	public void score(Player p) {
-		if(p.equals(first)) fScore++;
+		if((p.equals(first) && !swap) || (p.equals(second) && swap)) fScore++;
 		else sScore++;
 		System.out.println(fScore + " : " + sScore);
 	}

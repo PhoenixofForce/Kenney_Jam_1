@@ -108,8 +108,6 @@ public class GameView extends View implements Controller {
 				boolean l = map.hasWall(x, y, Direction.LEFT);
 				boolean r = map.hasWall(x, y, Direction.RIGHT);
 
-				g.setStroke(new BasicStroke(3));
-
 				if (t && l) wall = "walls_corner_tl";
 				else if (t && r) wall = "walls_corner_tr";
 				else if (t) wall = "walls_edge_t";
@@ -123,11 +121,6 @@ public class GameView extends View implements Controller {
 					g.drawImage(TextureHandler.getImagePng(wall), x * SIZE, y * SIZE, SIZE, SIZE, null);
 				}
 
-
-				if (t) g.drawLine(x * SIZE, y * SIZE, (x + 1) * SIZE, y * SIZE);
-				if (b) g.drawLine(x * SIZE, (y + 1) * SIZE, (x + 1) * SIZE, (y + 1) * SIZE);
-				if (l) g.drawLine(x * SIZE, y * SIZE, x * SIZE, (y + 1) * SIZE);
-				if (r) g.drawLine((x + 1) * SIZE, y * SIZE, (x + 1) * SIZE, (y + 1) * SIZE);
 			}
 		}
 	}

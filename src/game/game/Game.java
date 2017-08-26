@@ -75,7 +75,7 @@ public class Game {
 	}
 
 	public void summonProjectile(Player s, float rot) {
-		Projectile p = new Projectile(s, this, Math.random() > 0.015);
+		Projectile p = new Projectile(s, this, Math.random() > 0.034);
 		p.updateFlyingDirection(-(float)Math.sin(Math.toRadians(rot))/9, (float)Math.cos(Math.toRadians(rot))/9);
 		projectiles.add(p);
 	}

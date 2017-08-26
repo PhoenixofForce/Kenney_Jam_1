@@ -57,7 +57,7 @@ public class Projectile {
 			}
 		}
 
-		return false;
+		return !(x >= 0 && x < game.getMap().getWidth() && y >= 0 && y < game.getMap().getHeight());
 	}
 
 	private Player collidePlayer(float x, float y) {

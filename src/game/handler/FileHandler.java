@@ -22,6 +22,6 @@ public class FileHandler {
 			System.err.println("Error reading file: " + fileName);
 			System.exit(-1);
 		}
-		return null;
+		return ":(";
 	}
 }

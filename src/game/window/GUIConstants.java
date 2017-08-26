@@ -16,12 +16,8 @@ public class GUIConstants {
 		try {
 
 			FONT = Font.createFont(Font.PLAIN, GUIConstants.class.getResourceAsStream(("res/font/kenvector_future_thin.ttf")));				//Dont works
-		} catch (FontFormatException e) {
+		} catch (Exception e) {
 			FONT = new Font("Arial", Font.BOLD, 12);
-			e.printStackTrace();
-		} catch (IOException e) {
-			FONT = new Font("Arial", Font.BOLD, 12);
-			e.printStackTrace();
 		}
 	}
 

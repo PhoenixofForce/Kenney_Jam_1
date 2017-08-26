@@ -1,21 +1,36 @@
 package game.game;
 
+import game.handler.FileHandler;
+
+import java.util.Scanner;
+
 public class GameMap {
 	private int width, height;
 	private boolean[][] walls_V;
 	private boolean[][] walls_H;
 
-	public GameMap(int width, int height) {
-		this.width = width;
-		this.height = height;
+	public GameMap() {
+		Scanner s = new Scanner(FileHandler.loadFile("map/map.txt"));
+
+		this.width = Integer.valueOf(s.nextLine());
+		this.height = Integer.valueOf(s.nextLine());
+
 
 		walls_V = new boolean[width + 1][height];
 		walls_H = new boolean[width][height + 1];
 
-		for (int x = 0; x <= width; x++) {
-			for (int y = 0; y <= height; y++) {
-				if (y < height) walls_V[x][y] = x == 0 || x == width || Math.random() < 0.1;
-				if (x < width) walls_H[x][y] = y == 0 || y == height || Math.random() < 0.1;
+		for (int y = 0; y < height; y++) {
+			String line = s.nextLine();
+			for (int x = 0; x <= width; x++){
+				walls_V[x][y] = x == 0 || x == width || line.charAt(x)=='X';
+			}
+		}
+		s.nextLine();
+
+		for (int y = 0; y <= height; y++) {
+			String line = s.nextLine();
+			for (int x = 0; x < width; x++) {
+				walls_H[x][y] = y == 0 || y == height || line.charAt(x)=='X';
 			}
 		}
 	}

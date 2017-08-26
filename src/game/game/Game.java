@@ -16,7 +16,7 @@ public class Game {
 	private Camera cam;
 
 	public Game() {
-		map = new GameMap(20, 15);
+		map = new GameMap();
 		cam = new Camera();
 		cam.setZoom(1);
 		cam.setPosition(0, 0);

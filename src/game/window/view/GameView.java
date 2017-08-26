@@ -158,7 +158,7 @@ public class GameView extends View implements Controller {
 			Graphics2D mapGraphics = (Graphics2D) mapBuffer.getGraphics();
 
 
-			if (drawTracks && !(game.getFirstPlayer().getVX() <= 0.00001f && game.getFirstPlayer().getVY() <= 0.00001f)) {
+			if (game.getFirstPlayer().getVX()*game.getFirstPlayer().getVX() + game.getFirstPlayer().getVY()*game.getFirstPlayer().getVY() > 0.0001f) {
 				int dx = (int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2));
 				int dy = (int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2));
 				double rot = Math.toRadians(game.getFirstPlayer().getRotation());
@@ -169,7 +169,7 @@ public class GameView extends View implements Controller {
 				mapGraphics.translate(-dx, -dy);
 			}
 
-			if (drawTracks && !(game.getSecondPlayer().getVX() <= 0.00001f && game.getSecondPlayer().getVY() <= 0.00001f)) {
+			if (game.getSecondPlayer().getVX()*game.getSecondPlayer().getVX() + game.getSecondPlayer().getVY()*game.getSecondPlayer().getVY() > 0.0001f) {
 				int dx = (int) (SIZE * (game.getSecondPlayer().getX() + game.getSecondPlayer().getWidth()/2));
 				int dy = (int) (SIZE * (game.getSecondPlayer().getY()+game.getSecondPlayer().getHeight()/2));
 				double rot = Math.toRadians(game.getSecondPlayer().getRotation());

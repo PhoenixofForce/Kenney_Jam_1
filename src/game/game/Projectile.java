@@ -9,13 +9,16 @@ public class Projectile {
 
 	private Game game;
 	private Player shooter;
+	boolean a;
 
-	public Projectile(Player shooter, Game game) {
+	public Projectile(Player shooter, Game game, boolean a) {
 		x = shooter.getX()+shooter.getWidth()/2-this.getWidth()/2;
 		y = shooter.getY()+shooter.getHeight()/2-this.getHeight()/2;
 		vx = 0;
 		vy = 0;
 
+		this.a = a;
+		if(!a)System.out.println(a);
 		this.shooter = shooter;
 		this.game = game;
 	}
@@ -31,7 +34,7 @@ public class Projectile {
 			if (t1 != null) {
 				return true;
 
-			} else if (collideWall(x+vx, y)){
+			} else if (collideWall(x+vx, y)&&a){
 				updateFlyingDirection(-vx, vy);
 				collides++;
 			} else {
@@ -42,7 +45,7 @@ public class Projectile {
 			if (t1 != null) {
 				return true;
 
-			} else if (collideWall(x, y+vy)){
+			} else if (collideWall(x, y+vy)&&a){
 				updateFlyingDirection(vx, -vy);
 				collides++;
 			} else {

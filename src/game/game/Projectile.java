@@ -54,23 +54,7 @@ public class Projectile {
 			}
 		}
 
-		if (rotation != targetRotation) {
-			float dist = (targetRotation - rotation + 360) % 360 - 180;
-
-
-			if (dist < 0) {
-				rotation += 360 + time/TIME_PER_DEGREE;
-				rotation %= 360;
-			} else {
-				rotation += 360 - time/TIME_PER_DEGREE;
-				rotation %= 360;
-			}
-
-
-			float dist2 = (targetRotation - rotation + 360) % 360 - 180;
-
-			if (dist * dist2 < 0) rotation = targetRotation;
-		}
+		rotation = targetRotation;
 	}
 
 	private boolean allowed(float x, float y) {

@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 
 public class GameView extends View implements Controller {
 	public static final int SIZE = 64;
+	public static final long TIME_FOR_TRACKS = 100;
 	private BufferedImage buffer;
 	private Window w;
 	private boolean running;
@@ -42,6 +43,7 @@ public class GameView extends View implements Controller {
 		redrawMap();
 
 		new Thread(() -> {
+			lastTimeForTracks = System.currentTimeMillis();
 			while (running) {
 				draw();
 			}
@@ -99,7 +101,10 @@ public class GameView extends View implements Controller {
 		}
 	}
 
+	private long lastTimeForTracks = 0;
 	public void draw() {
+		long time = System.currentTimeMillis();
+
 		if (w.getPanel().getWidth() != bw || w.getPanel().getHeight() != bh) {
 			buffer = new BufferedImage(w.getPanel().getWidth(), w.getPanel().getHeight(), BufferedImage.TYPE_INT_ARGB);
 			bw = w.getPanel().getWidth();
@@ -115,6 +120,25 @@ public class GameView extends View implements Controller {
 		c.update();
 		g.translate(c.x, c.y);
 
+		boolean drawTracks = (time-lastTimeForTracks) > TIME_FOR_TRACKS;
+		if (drawTracks) {
+			lastTimeForTracks += TIME_FOR_TRACKS;
+
+			Graphics2D mapGraphics = (Graphics2D) mapBuffer.getGraphics();
+
+
+			if (drawTracks) {
+				int dx = (int) (SIZE * (game.getFirstPlayer().getX() + game.getFirstPlayer().getWidth()/2));
+				int dy = (int) (SIZE * (game.getFirstPlayer().getY()+game.getFirstPlayer().getHeight()/2));
+				double rot = Math.toRadians(game.getFirstPlayer().getRotation());
+				mapGraphics.translate(dx, dy);
+				mapGraphics.rotate(rot);
+				mapGraphics.drawImage(TextureHandler.getImagePng("tanks_tracksLarge"), -(int) (SIZE * game.getFirstPlayer().getWidth())/2, -(int) (SIZE * game.getFirstPlayer().getHeight())/2, (int) (SIZE * game.getFirstPlayer().getWidth()), (int) (SIZE * game.getFirstPlayer().getHeight()), null);
+				mapGraphics.rotate(-rot);
+				mapGraphics.translate(-dx, -dy);
+			}
+			}
+
 		GameMap map = game.getMap();
 
 		if (SIZE * map.getWidth() != gbw || SIZE * map.getHeight() != gbh) {
@@ -122,6 +146,7 @@ public class GameView extends View implements Controller {
 			gbw = SIZE * map.getWidth();
 			gbh = SIZE * map.getHeight();
 		}
+
 		Graphics2D gameGraphics = (Graphics2D) gameBuffer.getGraphics();
 		gameGraphics.drawImage(mapBuffer, 0, 0, null);
 

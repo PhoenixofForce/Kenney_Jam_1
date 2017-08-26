@@ -63,7 +63,7 @@ public class Game {
 
 	public void summonProjectile(Player s, float rot) {
 		Projectile p = new Projectile(s, this);
-		p.updateFlyingDirection(rot == 90 || rot == 45 || rot == 135? 1: rot == 0 || rot == 360 || rot == 180? 0: -1, rot == 225 || rot == 180 || rot == 135? 1: rot == 90 || rot == 270? 0: -1);
+		p.updateFlyingDirection(-(float)Math.sin(Math.toRadians(rot))/9, (float)Math.cos(Math.toRadians(rot))/9);
 		projectiles.add(p);
 	}
 }

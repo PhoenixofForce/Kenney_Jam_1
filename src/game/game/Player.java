@@ -126,7 +126,7 @@ public class Player {
 	}
 
 	public void shoot() {
-		game.getCamera().addScreenshake(100.0000001f);
+		game.getCamera().addScreenshake(25.0000001f);
 		game.summonProjectile(this, rotation);
 	}
 
